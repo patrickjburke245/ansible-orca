@@ -1,3 +1,3 @@
 # Ansible with Orca
 
-Test Push 1.
+Ansible Playbook and Role (in /roles/common/tasks) for deploying ThreatOptix on a Linux VM.
