@@ -51,11 +51,23 @@
     dest: '{{ destination_directory }}'
     remote_src: yes
 
-#- name: Change directory and unzip TO Agent tarball
-#  shell:  cd /opt/ThreatOptix && unzip ThreatOptix_agent_vm_v1.0.8.zip -d /opt/ThreatOptix
+- name: Change ownership of extracted files
+  file:
+    path: '{{ item }}'
+    mode: '0755'
+  loop:
+    - '{{ destination_directory }}/install.sh'
+    - '{{ destination_directory }}/uninstall.sh'
+    - '{{ destination_directory }}/bin/threatoptix-monitor'
 
-- name: Chmod of install script, uninstall script, to-monitor binary to allow execution
-  shell: sudo chmod +x install.sh uninstall.sh bin/threatoptix-monitor
-  
 - name: Run install script
-  shell: "sudo ./install.sh"
+#  shell: "sudo ./install.sh"
+  command: '{{ destination_directory }}/install.sh'
+
+- name: collect facts about system services
+  service_facts:
+  register: services_state
+
+- name: Debug
+  debug:
+    var: services_state.ansible_facts.services.threatoptix-monitor.service
