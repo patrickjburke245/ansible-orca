@@ -5,7 +5,7 @@
     method: GET
     headers:
       Content-Type: "application/json"
-      Authorization: "Token aHR0cHM6Ly9hcHAudXMub3JjYXNlY3VyaXR5LmlvfHx0dW56NUd4a2ZKSEl6TjB4RGJtU2xUeTJuM2t4M0FCSw=="
+      Authorization: "Token {api token}"
     return_content: true
     status_code: 200
     body_format: json
