@@ -1,0 +1,61 @@
+---
+- name: Check that we have all of the variables that we need
+  fail:
+    msg: "Required variable {{ item }} has not been set"
+  when:
+    vars[item] is undefined
+  loop:
+    - api_key
+    - api_url
+
+- name: Install pre-requisite software
+  package: 
+    name: unzip
+    state: present
+  when: install_prerequisites | bool
+
+- name: initial Orca API call
+  uri:
+    url: https://{{ api_url }}
+    method: GET
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Token {{ api_key }}"
+    return_content: true
+    status_code: 200
+    body_format: json
+  register: result_from_threatoptix_download_api_call
+
+- name: create opt/ThreatOptix directory
+  file:
+    path: '{{ destination_directory }}'
+    state: directory
+    mode: '0755'
+
+- name: Download TO Agent to /opt/ThreatOptix
+  uri:
+    url: '{{result_from_threatoptix_download_api_call.json["s3_signed_url"]}}'
+    user: ec2-user
+    method: GET
+    dest: '{{ destination_directory }}'
+  register: result
+
+- name: Show result of url
+  debug:
+    msg:
+    - Foo {{ result }}
+
+- name: Extract installation files
+  unarchive:
+    src: '{{ result.path }}'
+    dest: '{{ destination_directory }}'
+    remote_src: yes
+
+#- name: Change directory and unzip TO Agent tarball
+#  shell:  cd /opt/ThreatOptix && unzip ThreatOptix_agent_vm_v1.0.8.zip -d /opt/ThreatOptix
+
+- name: Chmod of install script, uninstall script, to-monitor binary to allow execution
+  shell: sudo chmod +x install.sh uninstall.sh bin/threatoptix-monitor
+  
+- name: Run install script
+  shell: "sudo ./install.sh"
