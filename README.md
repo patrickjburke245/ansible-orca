@@ -10,9 +10,6 @@ You'll need to create an API token in the Orca Security UI, and place that in /r
 | -------  | ----------- |
 | api_url  | This represents the API URL that will be used for downloading the ThreatOptix agent. Note that each Orca Region will require a different API location. The US region will look like this api.orcasecurity.io/api/threatoptix/download?agent_type=vm Note the agent_type parameter being passed to the URL |
 | api_key | This is the Orca API KEY that will be used to authenticate against the Orca API. All requests to the Orca API must be authenticated. |
-| destination_directory | This is the destination directory on the host where the agent is being installed. Typically this should be /opt/ThreatOptix/ |
-| install_prerequisites | This is a variable to get the role to install pre-requisite software before running the threatoptix installation. At this time, it is used to install unzip if needed. |
-| agent_name | This is the name of the threatoptix agent. It is only used in the role for outputs. Future proofin in case the name of the agent ever changes. |
 
 ## Defaults
 
@@ -21,9 +18,7 @@ It is possible to change the defaults by editing them, or simply overriding them
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| api_url  | Yes | Defaults to US location | 
-| api_key | No | You can place into vars, or pass in from command line |
-| destination_directory | Yes | /opt/ThreatOptix |
+| destination_directory | Yes | /opt/ThreatOptix/ |
 | install_prerequisites | Yes | Defaults to true - will install unzip if needed |
 | agent_name | Yes | ThreatOptix agent |
 

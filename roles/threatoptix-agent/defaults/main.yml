@@ -1,0 +1,3 @@
+destination_directory: /opt/ThreatOptix/
+install_prerequisites: true
+agent_name: 'ThreatOptix agent'
