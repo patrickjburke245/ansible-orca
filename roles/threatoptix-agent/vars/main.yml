@@ -1,5 +1,5 @@
 api_url: api.orcasecurity.io/api/threatoptix/download?agent_type=vm
-api_key: "aHR0cHM6Ly9hcHAudXMub3JjYXNlY3VyaXR5LmlvfHxCOHA5dGhoMHBZaEkyRENhTTNFQmtsaWtWRkZEYUdkcw=="
+api_key: 
 destination_directory: /opt/ThreatOptix/
 install_prerequisites: true
 agent_name: 'ThreatOptix agent'
