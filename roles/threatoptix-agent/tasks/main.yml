@@ -1,4 +1,34 @@
 ---
+- name: Ensure that a threatoptix tenant exists
+  uri:
+    url: https://{{ api_url }}/threatoptix/tenant
+    method: GET
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Token {{ api_key }}"
+    return_content: true
+    status_code: 200
+    body_format: json
+  register: threatoptix_tenant
+  ignore_errors: true
+
+- name: End play with debug
+  debug: 
+    msg: "error {{ threatoptix_tenant.content }}"
+
+- name: Create threatoptix tenant
+  uri:
+    url: https://{{ api_url }}/threatoptix/tenant
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Token {{ api_key }}"
+    return_content: true
+    status_code: 200
+    body_format: json
+  register: threatoptix_tenant_create
+  when: threatoptix_tenant.status != 200 
+
 - name: Check that we have all of the variables that we need
   fail:
     msg: "Required variable {{ item }} has not been set"
@@ -6,6 +36,7 @@
   loop:
     - api_key
     - api_url
+
 
 - name: Install pre-requisite software
   package: 
@@ -16,7 +47,7 @@
 
 - name: initial Orca API call
   uri:
-    url: https://{{ api_url }}
+    url: https://{{ api_url }}/threatoptix/download?agent_type=vm
     method: GET
     headers:
       Content-Type: "application/json"
