@@ -1,2 +1,2 @@
-api_url: api.orcasecurity.io/api/threatoptix/download?agent_type=vm
+api_url: app.au.orcasecurity.io/api
 api_key: 
